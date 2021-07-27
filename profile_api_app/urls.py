@@ -17,6 +17,7 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path('show_all_profiles/', views.ShowAllProfile.as_view()),
+    path('', views.ShowAllProfile.as_view()),
     path('show_all_achievements/', views.ShowAllAchievements.as_view()),
+    path('show_profile/<int:user_id>', views.ShowProfile.as_view()),
 ]

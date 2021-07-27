@@ -8,9 +8,17 @@ from django.contrib.auth.models import User
 
 # Profile Serializer takes into account the user's name email and area of interest
 class ProfileSerializer(serializers.ModelSerializer):
+    # the argument thats passed in serializermethodfield should be a method like it should be a function
+    username_field = serializers.SerializerMethodField('get_username')
+
     class Meta:
         model = Profile
-        fields = '__all__'
+        fields = ['id', 'date_joined', 'first_name', 'last_name', 'email', 'area_of_interest', 'username_field']
+
+    # Basically we are passing in the object and here in this case would be the users profile
+    def get_username(self, profile):
+        username = profile.user.username
+        return username
 
 
 # Achievement Serializer records the users achievements
@@ -32,3 +40,5 @@ class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'password')
+
+
