@@ -20,6 +20,7 @@ class Profile(models.Model):
 class Achievement(models.Model):
     # We are always going to start to tie these models to our User model
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     date_added = models.DateField(auto_now_add=True)
     achievement_response = models.TextField(max_length=500)
     # achievement pictures will be sent to media so keep in mind that you'll need a media folder in project
@@ -33,6 +34,7 @@ class Achievement(models.Model):
 class Student(models.Model):
     # Again we are always going to start to tie these models to our User model
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     date_added = models.DateField(auto_now_add=True)
     overall_gpa = models.FloatField(default=0, validators=[MinValueValidator(0), MaxValueValidator(4)])
     activity_title = models.CharField(max_length=100)
@@ -41,3 +43,4 @@ class Student(models.Model):
 
     def __str__(self):
         return f'{self.user.username}: GPA({self.overall_gpa}) and Activity Details {self.activity_details[:50]}'
+

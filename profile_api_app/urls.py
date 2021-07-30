@@ -20,4 +20,5 @@ urlpatterns = [
     path('', views.ShowAllProfile.as_view()),
     path('show_all_achievements/', views.ShowAllAchievements.as_view()),
     path('show_profile/<int:user_id>', views.ShowProfile.as_view()),
+    path('show_achievement/<int:achievement_id>', views.ShowAchievements.as_view()),
 ]

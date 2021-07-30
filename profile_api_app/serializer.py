@@ -23,9 +23,15 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 # Achievement Serializer records the users achievements
 class AchievementSerializer(serializers.ModelSerializer):
+    username = serializers.SerializerMethodField('username_collector')
+
     class Meta:
         model = Achievement
-        fields = "__all__"
+        fields = ['id', 'date_added', 'achievement_response', 'achievement_pictures', 'user', 'username']
+
+    def username_collector(self, achievement_obj):
+        username = achievement_obj.user.username
+        return username
 
 
 # Student Serializer records the user's student status like their grades and activities

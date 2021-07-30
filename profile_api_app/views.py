@@ -14,6 +14,8 @@ class ShowAllProfile(generics.ListAPIView):
         * The user's first and last name
         * Their email and area of interest
         * also the time when they joined + their username
+
+    Show Profile does not need a post request because it is automatically created when a user registers
     """
 
     queryset = Profile.objects.all()
@@ -32,27 +34,14 @@ class ShowProfile(APIView):
         serializer = ProfileSerializer(user_profile, many=False)
         return Response(serializer.data)
 
-    # Post request will handle posting info like first, last name etc
-    def post(self, request):
-        serializer = ProfileSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.first_name = request.data.first_name
-            serializer.last_name = request.data.last_name
-            serializer.email = request.data.email
-            serializer.area_of_interest = request.data.area_of_interest
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
-
-
 
 class ShowAllAchievements(generics.ListCreateAPIView):
     """
     List all the user achievements
         * achievement response with their username
 
-    Allows Post Method to this endpoint
+    Allows Post Method to this endpoint.
+        * Users could add their achievements to this endpoint
     """
 
     queryset = Achievement.objects.all()
@@ -76,6 +65,11 @@ class ShowAchievements(APIView):
     This api will handle post request* Handles posting achievement response
 
     """
+
+    def get(self, request, achievement_id):
+        achievement = Achievement.objects.get(id=achievement_id)
+        serializer = AchievementSerializer(achievement, many=False)
+        return Response(serializer.data)
 
 
 
