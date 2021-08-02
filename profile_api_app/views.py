@@ -8,6 +8,15 @@ from rest_framework.pagination import PageNumberPagination
 
 
 # Create your APIview here.
+
+"""
+Note:
+    * Every Model has two API view that either list EVERY data in the model or ONE data given an id
+    * Post request will ONLY be present in the API view that handles EVERY data 
+    * Put, Delete will also be present in API views that handle ONE data 
+"""
+
+
 class ShowAllProfile(generics.ListAPIView):
     """
     List all the user profile
@@ -58,7 +67,7 @@ class ShowAllAchievements(generics.ListCreateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ShowAchievements(APIView):
+class ShowAchievement(APIView):
     """
     Shows a specific user achievement
 
@@ -72,6 +81,33 @@ class ShowAchievements(APIView):
         return Response(serializer.data)
 
 
+class ShowAllStudents(generics.ListCreateAPIView):
+    """
+    Shows all the Student information of every user
+        * Shows their gpa clubs etc
+
+    This Endpoint will handle Post request.
+    """
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer(queryset, many=True)
+    pagination_class = PageNumberPagination
+
+    def post(self, request, *args, **kwargs):
+        serializer = StudentSerializer(request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class ShowStudent(APIView):
+    """
+    Shows a specific Student information about that user
+        * Shows a specific user's student info
+    """
+
+    def get(self, request, student_id, *args, **kwargs):
+        student = Student.objects.get(id=student_id)
+        serializer = StudentSerializer(student, many=False)
+        return Response(serializer.data)
 
