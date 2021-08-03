@@ -22,4 +22,5 @@ urlpatterns = [
     path('show_profile/<int:user_id>', views.ShowProfile.as_view()),
     path('show_achievement/<int:achievement_id>', views.ShowAchievement.as_view()),
     path('show_student/<int:student_id>', views.ShowStudent.as_view()),
+    path('show_all_students/', views.ShowAllStudents.as_view())
 ]

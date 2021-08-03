@@ -89,7 +89,7 @@ class ShowAllStudents(generics.ListCreateAPIView):
     This Endpoint will handle Post request.
     """
     queryset = Student.objects.all()
-    serializer_class = StudentSerializer(queryset, many=True)
+    serializer_class = StudentSerializer
     pagination_class = PageNumberPagination
 
     def post(self, request, *args, **kwargs):
