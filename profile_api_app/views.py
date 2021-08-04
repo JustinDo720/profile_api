@@ -5,6 +5,7 @@ from rest_framework import status, generics
 from .models import Profile, Achievement, Student
 from .serializer import ProfileSerializer, AchievementSerializer, StudentSerializer, RegisterSerializer
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAuthenticated
 
 
 # Create your APIview here.

@@ -3,8 +3,8 @@
 3) DONE Work on Achievements and Student Models
 4) DONE Serializer, API Views (Basically work with djangorestframework)
 5) DONE Test endpoints with Postman (Is POST, GET, DELETE, PUT working?)
-5.5) Check out Faker with Django to make the data for you
-6) Authentication system so maybe SJWT? or django authentication? how about restframework authentications/permissions?
+5.5) Done Check out Faker with Django to make the data for you
+6) 1/2 Authentication system so maybe SJWT? or django authentication? how about restframework authentications/permissions?
 7) Djoser? wtf is that?
 8) Spice it up with postgresql?
 9) How about pictures? so Amazon S3 bucket? yeah? (Media files and Static files more challenging) Esp with the new S3 rules
