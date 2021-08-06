@@ -5,6 +5,7 @@ from rest_framework import status, generics
 from .models import Profile, Achievement, Student
 from .serializer import ProfileSerializer, AchievementSerializer, StudentSerializer, RegisterSerializer
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 
 # Create your APIview here.
@@ -89,7 +90,7 @@ class ShowAllStudents(generics.ListCreateAPIView):
     This Endpoint will handle Post request.
     """
     queryset = Student.objects.all()
-    serializer_class = StudentSerializer(queryset, many=True)
+    serializer_class = StudentSerializer
     pagination_class = PageNumberPagination
 
     def post(self, request, *args, **kwargs):

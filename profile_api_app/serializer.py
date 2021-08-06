@@ -2,10 +2,11 @@ from rest_framework import serializers
 from profile_api_app.models import Profile, Achievement, Student
 from rest_framework.response import Response
 from django.contrib.auth.models import User
+from djoser.serializers import UserCreateSerializer
+from django.contrib.auth import get_user_model
 
-
+user = get_user_model()
 # NOTE: Use ModelSerializer since we are working with models. If we use serializers.Serializer we just get 200 response
-
 # Profile Serializer takes into account the user's name email and area of interest
 class ProfileSerializer(serializers.ModelSerializer):
     # the argument thats passed in serializermethodfield should be a method like it should be a function
@@ -48,3 +49,8 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'password')
 
 
+# Custom Serializer
+class MyUserCreateSerializer(UserCreateSerializer):
+    class Meta(UserCreateSerializer.Meta):
+        model = user
+        fields = ('id', 'email', 'name', 'password')
