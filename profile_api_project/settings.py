@@ -135,6 +135,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'profile_api_app/static') # Means our app folder has the static folder
 
 
 # Media Files (Uploaded Images)
@@ -180,7 +181,7 @@ SIMPLE_JWT = {
     'AUDIENCE': None,
     'ISSUER': None,
 
-    'AUTH_HEADER_TYPES': ('JWT',),
+    'AUTH_HEADER_TYPES': ('JWT', 'Bearer'),
     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
     'USER_ID_FIELD': 'id',
     'USER_ID_CLAIM': 'user_id',
@@ -191,11 +192,24 @@ SIMPLE_JWT = {
 }
 
 DJOSER = {
-    # 'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
-    # 'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
-    # 'ACTIVATION_URL': '#/activate/{uid}/{token}',
-    # 'SEND_ACTIVATION_EMAIL': False,
-    # 'SERIALIZERS': {},
+    'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
+    'USERNAME_RESET_CONFIRM_URL': 'username/reset/confirm/{uid}/{token}',
+    'ACTIVATION_URL': 'activate/{uid}/{token}',
+    'SEND_CONFIRMATION_EMAIL': True,
+    'SEND_ACTIVATION_EMAIL': True,
+    'SERIALIZERS': {
+        'user_create': 'profile_api_app.serializer.MyUserCreateSerializer',
+        'user': 'profile_api_app.serializer.MyUserCreateSerializer',
+        'user_delete': 'djoser.serializers.UserDeleteSerializer',
+    },
     'LOGIN_FIELD': "username",
-    'USER_CREATE_PASSWORD_RETYPE': True
+    'USER_CREATE_PASSWORD_RETYPE': True,
 }
+
+# Email Config
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.getenv('PROFILE_API_EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('PROFILE_API_APP_PASSWORD')
+EMAIL_USE_TLS = True
