@@ -33,58 +33,59 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         fake = Faker()
         fake.add_provider(Provider)
+        try:
+            # We use **kwargs  to access our argument
+            # This way we could add a specific user or a random user
+            if kwargs['model'][:3].lower() == 'ach':
+                print('achievement')
+                # Achievement Model
+                if kwargs['custom_user_id']:
+                    # We are going to inject fake data for only one user specified by the custom_user_id
+                    try:
+                        profile = Profile.objects.get(kwargs['custom_user_id'])
+                        user = profile.user
+                        achievement_creation = Achievement.objects.create(
+                            user= user,
+                            user_profile= profile,
+                            achievement_response= fake.paragraph(nb_sentences=10)
+                        )
 
-        # We use **kwargs  to access our argument
-        # This way we could add a specific user or a random user
-        if kwargs['model'][:3].lower() == 'ach':
-            print('achievement')
-            # Achievement Model
-            if kwargs['custom_user_id']:
-                # We are going to inject fake data for only one user specified by the custom_user_id
-                try:
-                    profile = Profile.objects.get(kwargs['custom_user_id'])
-                    user = profile.user
-                    achievement_creation = Achievement.objects.create(
-                        user= user,
-                        user_profile= profile,
-                        achievement_response= fake.paragraph(nb_sentences=10)
-                    )
+                        print(achievement_creation)
+                    except Exception:
+                        print('User does not exist')
+                else:
+                    # We are going to inject data for all users
+                    for user_id in NUMBER_OF_USERS:
+                        profile = Profile.objects.get(id=user_id)
+                        user = profile.user
+                        achievement_creation = Achievement.objects.create(user=user, user_profile=profile,
+                                                                          achievement_response= fake.paragraph(nb_sentences=10))
+                        print(achievement_creation)
+            elif kwargs['model'][:3].lower() == 'stu':
+                print('student')
+                # Student model
+                if kwargs['custom_user_id']:
+                    # We are going to inject fake data for only one user specified by the custom_user_id
+                    try:
+                        profile = Profile.objects.get(kwargs['custom_user_id'])
+                        user = profile.user
+                        student_creation = Student.objects.create(user=user, user_profile=profile,
+                                                                  overall_gpa=fake.gpa_selection(), activity_title=fake.job(),
+                                                                  activity_details=fake.paragraph(nb_sentences=5)
+                                                                    )
+                        print(student_creation)
+                    except Exception:
+                        print('User does not exist')
+                else:
+                    # We are going to inject data for all users
+                    for students in NUMBER_OF_USERS:
+                        profile = Profile.objects.get(id=students)
+                        user = profile.user
+                        student_creation = Student.objects.create(user=user, user_profile=profile,
+                                                                  overall_gpa=fake.gpa_selection(), activity_title=fake.job(),
+                                                                  activity_details=fake.paragraph(nb_sentences=5)
+                                                                    )
+                        print(student_creation)
 
-                    print(achievement_creation)
-                except Exception:
-                    print('User does not exist')
-            else:
-                # We are going to inject data for all users
-                for user_id in NUMBER_OF_USERS:
-                    profile = Profile.objects.get(id=user_id)
-                    user = profile.user
-                    achievement_creation = Achievement.objects.create(user=user, user_profile=profile,
-                                                                      achievement_response= fake.paragraph(nb_sentences=10))
-                    print(achievement_creation)
-        elif kwargs['model'][:3].lower() == 'stu':
-            print('student')
-            # Student model
-            if kwargs['custom_user_id']:
-                # We are going to inject fake data for only one user specified by the custom_user_id
-                try:
-                    profile = Profile.objects.get(kwargs['custom_user_id'])
-                    user = profile.user
-                    student_creation = Student.objects.create(user=user, user_profile=profile,
-                                                              overall_gpa=fake.gpa_selection(), activity_title=fake.job(),
-                                                              activity_details=fake.paragraph(nb_sentences=5)
-                                                                )
-                    print(student_creation)
-                except Exception:
-                    print('User does not exist')
-            else:
-                # We are going to inject data for all users
-                for students in NUMBER_OF_USERS:
-                    profile = Profile.objects.get(id=students)
-                    user = profile.user
-                    student_creation = Student.objects.create(user=user, user_profile=profile,
-                                                              overall_gpa=fake.gpa_selection(), activity_title=fake.job(),
-                                                              activity_details=fake.paragraph(nb_sentences=5)
-                                                                )
-                    print(student_creation)
-        else:
-            print('Please indicate which model you would like to add data to')
+        except TypeError:
+            print('Make sure you indicate which model you\'d like to insert data. E.G: python manage.py run_fake_data Student')

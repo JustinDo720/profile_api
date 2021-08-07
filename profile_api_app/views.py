@@ -31,6 +31,7 @@ class ShowAllProfile(generics.ListAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     pagination_class = PageNumberPagination
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class ShowProfile(APIView):
