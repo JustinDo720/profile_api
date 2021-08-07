@@ -8,7 +8,7 @@
 7) DONE Djoser? wtf is that?
     * When you sign up with an email there will be an activation email and you'll get the link but it won't bring you
         * Anywhere because you need to work with the link on the front end and send back to /users/activation
-8) Spice it up with postgresql?
+8) DONE Spice it up with postgresql?
 9) POSTPONE How about pictures? so Amazon S3 bucket? yeah? (Media files and Static files more challenging) Esp with the new S3 rules
 10) POSTPONE Deploy with anything other than Heroku
 
