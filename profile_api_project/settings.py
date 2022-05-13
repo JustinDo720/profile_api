@@ -139,7 +139,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'profile_api_app/static') # Means our app folder has the static folder
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')  # Means our app folder has the static folder
 
 
 # Media Files (Uploaded Images)
