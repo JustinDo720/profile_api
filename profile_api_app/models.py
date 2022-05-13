@@ -11,6 +11,7 @@ class Profile(models.Model):
     last_name = models.CharField(max_length=75)
     email = models.EmailField(max_length=200, null=True, default=None)
     area_of_interest = models.TextField(max_length=300, null=True, default=None)
+    profile_image = models.ImageField(upload_to='profile_img', blank=True, null=True)
 
     def __str__(self):
         return self.user.username
